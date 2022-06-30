@@ -18,31 +18,27 @@ public class Room {
         desc = new ArrayList<>();
         loot = new ArrayList<>();
         enemies = new ArrayList<>();
-
-        if (rnd.nextInt(5)>2)
-        {
-            for (int i = 0; i < rnd.nextInt(TA.p1.level+1);i++)
+        desc.add("You are here");
+        for (int i = 0; i < Math.random()*TA.p1.level;i++)
             {
                 Weapon w = new Weapon();
                 loot.add(w);
-                desc.add("There is a "+w.name+" here.");
+                String wstring = "There is a "+w.name+" here.";
+                desc.add(wstring);
             }
-            for (int i = 0; i < rnd.nextInt(TA.p1.level+1);i++)
+            for (int i = 0; i < Math.random()*TA.p1.level;i++)
             {
                 Armor r = new Armor();
                 loot.add(r);
-                desc.add("There is "+r.name+" here.");
+                String rstring = "There is "+r.name+" here.";
+                desc.add(rstring);
             }
-        }
-        else
-        {
-            for (int i = 0; i < rnd.nextInt(TA.p1.level+1);i++)
+            for (int i = 0; i < Math.random()*TA.p1.level;i++)
             {
-                Creature c = new Creature(rnd.nextInt(TA.p1.level+1));
+                Creature c = new Creature(rnd.nextInt(TA.p1.level));
                 enemies.add(c);
-                desc.add("There is a "+c.name+" here!");
+                desc.add(c.cstring);
             }
-        }
     }
 
 }
