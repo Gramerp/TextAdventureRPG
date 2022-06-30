@@ -11,6 +11,8 @@ public class Creature {
     int def;
     int att;
     int magic;
+    boolean wequipped = false;
+    boolean requipped = false;
     String cstring;
     ArrayList<Item> inventory = new ArrayList();
     Random rnd = new Random(10);
@@ -41,6 +43,11 @@ public class Creature {
         }
     }
 
+    public void get(Item i)
+    {
+        this.inventory.add(i);
+    }
+
     public Creature()
     {
 
@@ -62,14 +69,14 @@ public class Creature {
     }
 
     public int attack(Creature target) throws InterruptedException {
-        int damage = this.att*rnd.nextInt(3)+1;
+        int damage = (int) (this.att * Math.random());
         target.damaged(damage);
         int damageDealt = target.damaged(damage);
         TA.type(this.name+" attacks "+target.name+" for "+damage+" damage.");
         return damageDealt;
     }
     public int weaken(Creature target) throws InterruptedException {
-        int weakness = this.magic*(int)Math.random()*this.level;
+        int weakness = (int) (this.magic * Math.random() * this.level);
         this.att -= weakness;
         this.def -= weakness;
         this.magic -= weakness;

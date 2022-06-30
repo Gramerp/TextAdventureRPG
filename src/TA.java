@@ -109,7 +109,7 @@ public class TA {
             System.out.println(d.makeUp[col][row].desc.get(i));
             Thread.sleep(50);
         }
-        System.out.println("What do you want to do?\nM: Move\nF: Fight\nL: Loot");
+        System.out.println("What do you want to do?\nM: Move\nF: Fight\nL: Loot\nE: Equip/Unequip an item\nD: drop an item.");
         String choice = sc.next();
         switch (choice)
         {
@@ -184,6 +184,11 @@ public class TA {
                 }
                 break;
             case "F":
+                if (d.makeUp[col][row].enemies.size() == 0)
+                {
+                    type("There is no one there...");
+                    break;
+                }
                 System.out.println("Who do you want to fight?");
                 for (int i = 0; i < d.makeUp[col][row].enemies.size(); i++) {
                     System.out.println(i+": level "+d.makeUp[col][row].enemies.get(i).level+" "+ d.makeUp[col][row].enemies.get(i).name);
@@ -270,24 +275,86 @@ public class TA {
                     break;
                 }
             case "L":
+                if (d.makeUp[col][row].loot.size() == 0)
+                {
+                    type("There is nothing to grab");
+                    break;
+                }
                 type("What do you want to pick up?");
                 for (int i = 0; i < d.makeUp[col][row].loot.size(); i++) {
                     System.out.println(i+": "+d.makeUp[col][row].loot.get(i).name);
                 }
                 int grab = sc.nextInt();
                 type("You grab the "+ d.makeUp[col][row].loot.get(grab).name+".");
-                if (d.makeUp[col][row].loot.get(grab) instanceof Weapon)
-                {
-                    p1.att += ((Weapon) d.makeUp[col][row].loot.get(grab)).attbonus;
-                }
-                else if (d.makeUp[col][row].loot.get(grab) instanceof Armor)
-                {
-                    p1.def += ((Armor) d.makeUp[col][row].loot.get(grab)).defbonus;
-                }
-                p1.inventory.add(d.makeUp[col][row].loot.get(grab));
+                p1.get(d.makeUp[col][row].loot.get(grab));
                 d.makeUp[col][row].desc.remove(d.makeUp[col][row].loot.get(grab).iString);
                 d.makeUp[col][row].loot.remove(grab);
                 break;
+
+            case "E":
+                if (p1.inventory.size() < 1)
+                {
+                    type("You have nothing.");
+                    break;
+                }
+                type("What do you want to equip or unequip?");
+                for (int i = 0; i < p1.inventory.size(); i++)
+                {
+                    System.out.print(i+": "+p1.inventory.get(i).name);
+                    if (p1.inventory.get(i).equipped)
+                    {
+                        System.out.print(" (Equipped)");
+                    }
+                    System.out.print("\n");
+                }
+                int itemchoice = sc.nextInt();
+                if (p1.inventory.get(itemchoice).equipped)
+                {
+                    type("You unequip the "+p1.inventory.get(itemchoice).name+".");
+                    if (p1.inventory.get(itemchoice) instanceof Weapon)
+                    {
+                        p1.att -= ((Weapon) p1.inventory.get(itemchoice)).attbonus;
+                        p1.wequipped = false;
+                    }
+                    else if (p1.inventory.get(itemchoice) instanceof Armor)
+                    {
+                        p1.def -= ((Armor) p1.inventory.get(itemchoice)).defbonus;
+                        p1.requipped = false;
+                    }
+                    p1.inventory.get(itemchoice).equipped = false;
+                    break;
+                }
+                else
+                {
+                    if (p1.inventory.get(itemchoice) instanceof Weapon)
+                    {
+                        if (p1.wequipped)
+                        {
+                            type("Unequip that weapon first.");
+                            break;
+                        }
+                        else
+                        {
+                            type("You equipped the "+p1.inventory.get(itemchoice).name);
+                            p1.att += (((Weapon) p1.inventory.get(itemchoice)).attbonus);
+                            p1.wequipped = true;
+                        }
+                    }
+                    else if (p1.inventory.get(itemchoice) instanceof Armor)
+                    {
+                        if (p1.requipped)
+                        {
+                            type("Take off that armor first.");
+                            break;
+                        }
+                        else
+                        {
+                            type("You equipped the "+p1.inventory.get(itemchoice).name);
+                            p1.def += ((Armor) p1.inventory.get(itemchoice)).defbonus;
+                            p1.requipped = true;
+                        }
+                    }
+                }
         }
 
     }

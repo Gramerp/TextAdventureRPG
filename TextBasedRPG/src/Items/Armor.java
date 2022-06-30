@@ -9,7 +9,7 @@ public class Armor extends Item {
     public Armor()
     {
         defbonus = rnd.nextInt(3)+1;
-        this.name = nameList[rnd.nextInt(nameList.length)];
+        this.name = nameList[rnd.nextInt(nameList.length)]+" "+this.defbonus;
         this.iString = "There is "+this.name+" here.";
     }
 
