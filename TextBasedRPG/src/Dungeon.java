@@ -19,6 +19,7 @@ public class Dungeon {
                 this.makeUp[i][j] = new Room();
             }
         }
+        TA.zLevel++;
     }
 
     public Dungeon()

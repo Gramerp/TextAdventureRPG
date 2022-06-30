@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TA {
-    public static Creature p1 = new Creature(5);
+    public static Creature p1 = new Creature(1);
     static Random rnd = new Random();
     static int row;
     static int col;
@@ -264,7 +264,7 @@ public class TA {
                     type("You defeated your foe!");
                     p1.xp += d.makeUp[col][row].enemies.get(fight).level*5;
                     type("You gained "+d.makeUp[col][row].enemies.get(fight).level*5+" xp.");
-                    while ((p1.level*5) <= p1.xp) p1.levelup();
+                    p1.levelup();
                     d.makeUp[col][row].desc.remove(d.makeUp[col][row].enemies.get(fight).cstring);
                     d.makeUp[col][row].enemies.remove(d.makeUp[col][row].enemies.get(fight));
                     break;

@@ -28,13 +28,17 @@ public class Creature {
     }
 
     public void levelup() throws InterruptedException {
+            while (this.xp >= (this.level*5))
+        {
             this.level++;
+            this.xp -= this.level*5;
             this.att += this.level/(this.level/2);
             this.def += this.level/(this.level/2);
             this.maxHealth += this.level/(this.level/2);
             this.health = this.maxHealth;
             this.magic += this.level/(this.level/2);
             TA.type("Welcome to level"+this.level);
+        }
     }
 
     public Creature()
