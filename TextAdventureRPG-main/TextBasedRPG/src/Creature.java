@@ -64,6 +64,12 @@ public class Creature {
         this.health = this.maxHealth;
         this.magic = level*rnd.nextInt(3)+1;
         this.cstring = "There is a level "+this.level+" "+this.name+" here!";
+        Weapon sw = new Weapon();
+        Armor sr = new Armor();
+        Healpot sp = new Healpot();
+        this.inventory.add(sp);
+        this.inventory.add(sw);
+        this.inventory.add(sr);
     }
 
     public int attack(Creature target) throws InterruptedException {

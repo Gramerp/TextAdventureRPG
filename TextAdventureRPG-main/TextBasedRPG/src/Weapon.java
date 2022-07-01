@@ -6,7 +6,7 @@ public class Weapon extends Item
 
     public Weapon()
     {
-        attbonus = rnd.nextInt(5)+1;
+        this.attbonus = rnd.nextInt(5)+1;
         this.name = nameList[rnd.nextInt(nameList.length)]+" "+this.attbonus;
         this.iString = "There is a "+this.name+" here.";
     }

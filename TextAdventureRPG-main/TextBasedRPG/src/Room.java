@@ -12,17 +12,23 @@ public class Room {
         desc = new ArrayList<>();
         loot = new ArrayList<>();
         enemies = new ArrayList<>();
-        for (int i = 0; i < Math.random()*TA.p1.level;i++)
+        for (int i = 0; i < Math.random()*(TA.p1.level/2);i++)
             {
                 Weapon w = new Weapon();
                 loot.add(w);
                 desc.add(w.iString);
             }
-            for (int i = 0; i < Math.random()*TA.p1.level;i++)
+            for (int i = 0; i < Math.random()*(TA.p1.level/2);i++)
             {
                 Armor r = new Armor();
                 loot.add(r);
                 desc.add(r.iString);
+            }
+            for (int i = 0; i < Math.random()*(TA.p1.level/2);i++)
+            {
+                Healpot h = new Healpot();
+                loot.add(h);
+                desc.add(h.iString);
             }
             for (int i = 0; i < Math.random()*TA.p1.level;i++)
             {

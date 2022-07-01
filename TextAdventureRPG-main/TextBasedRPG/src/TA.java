@@ -17,6 +17,8 @@ public class TA {
 
         type("You, "+ p1.name + " are on a journey to retrieve the Amulet of Yendor");
 
+        type("Your stats are:\nHP: "+p1.health+"\nATT: "+p1.att+"\nDEF: "+p1.def+"\nMAG: "+p1.magic);
+
         type("You enter the dungeon from the " + d.entryDirection + "...\nbut you are magically teleported deeper in the dungeon.");
         row = rnd.nextInt(d.y)+1;
         col = rnd.nextInt(d.x)+1;
@@ -102,8 +104,9 @@ public class TA {
     public static void dungeonLoop() throws InterruptedException
     {
         type("You are in room "+col+", "+row);
-        for (int i = 0; i < d.makeUp[col][row].desc.size(); i++) {
-            System.out.println(d.makeUp[col][row].desc.get(i));
+        Room cr = d.makeUp[col][row];
+        for (int i = 0; i < cr.desc.size(); i++) {
+            System.out.println(cr.desc.get(i));
             Thread.sleep(50);
         }
         System.out.println("What do you want to do?\nM: Move\nF: Fight\nL: Loot\nE: Equip/Unequip/Use an item\nD: Drop an item.");
@@ -181,18 +184,18 @@ public class TA {
                 }
                 break;
             case "F":
-                if (d.makeUp[col][row].enemies.size() == 0)
+                if (cr.enemies.size() == 0)
                 {
                     type("There is no one there...");
                     break;
                 }
                 type("Who do you want to fight?");
-                for (int i = 0; i < d.makeUp[col][row].enemies.size(); i++) {
+                for (int i = 0; i < cr.enemies.size(); i++) {
                     System.out.println(i+": level "+d.makeUp[col][row].enemies.get(i).level+" "+ d.makeUp[col][row].enemies.get(i).name);
                 }
                 int fight = sc.nextInt();
-                type("You fight the level "+d.makeUp[col][row].enemies.get(fight).level+" "+d.makeUp[col][row].enemies.get(fight).name);
-                while (p1.health > 0 && d.makeUp[col][row].enemies.get(fight).health > 0)
+                type("You fight the level "+cr.enemies.get(fight).level+" "+cr.enemies.get(fight).name);
+                while (p1.health > 0 && cr.enemies.get(fight).health > 0)
                 {
                     boolean run = false;
                     boolean defend = false;
@@ -261,31 +264,37 @@ public class TA {
                     type("You, "+ p1.name+", have died...");
                     System.exit(7437);
                 }
-                if (d.makeUp[col][row].enemies.get(fight).health <= 0);
+                if (cr.enemies.get(fight).health <= 0);
                 {
                     type("You defeated your foe!");
-                    p1.xp += d.makeUp[col][row].enemies.get(fight).level*5;
-                    type("You gained "+d.makeUp[col][row].enemies.get(fight).level*5+" xp.");
+                    p1.xp += cr.enemies.get(fight).level*5;
+                    type("You gained "+cr.enemies.get(fight).level*5+" xp.");
                     p1.levelup();
-                    d.makeUp[col][row].desc.remove(d.makeUp[col][row].enemies.get(fight).cstring);
-                    d.makeUp[col][row].enemies.remove(d.makeUp[col][row].enemies.get(fight));
+                    for (int i = 0; i < cr.enemies.get(fight).inventory.size(); i++)
+                    {
+                        p1.inventory.add(cr.enemies.get(fight).inventory.get(i));
+                        type("You got a "+cr.enemies.get(fight).inventory.get(i).name+".");
+                        cr.enemies.get(fight).inventory.remove(cr.enemies.get(fight).inventory.get(i));
+                    }
+                    cr.desc.remove(cr.enemies.get(fight).cstring);
+                    cr.enemies.remove(cr.enemies.get(fight));
                     break;
                 }
             case "L":
-                if (d.makeUp[col][row].loot.size() == 0)
+                if (cr.loot.size() == 0)
                 {
                     type("There is nothing to grab");
                     break;
                 }
                 type("What do you want to pick up?");
-                for (int i = 0; i < d.makeUp[col][row].loot.size(); i++) {
+                for (int i = 0; i < cr.loot.size(); i++) {
                     System.out.println(i+": "+d.makeUp[col][row].loot.get(i).name);
                 }
                 int grab = sc.nextInt();
-                type("You grab the "+ d.makeUp[col][row].loot.get(grab).name+".");
-                p1.get(d.makeUp[col][row].loot.get(grab));
-                d.makeUp[col][row].desc.remove(d.makeUp[col][row].loot.get(grab).iString);
-                d.makeUp[col][row].loot.remove(grab);
+                type("You grab the "+ cr.loot.get(grab).name+".");
+                p1.get(cr.loot.get(grab));
+                cr.desc.remove(cr.loot.get(grab).iString);
+                cr.loot.remove(grab);
                 break;
 
             case "E":
@@ -355,6 +364,16 @@ public class TA {
                             break;
                         }
                     }
+                    else if (p1.inventory.get(itemchoice) instanceof Consumable)
+                    {
+                        if (p1.inventory.get(itemchoice) instanceof Healpot)
+                        {
+                            p1.health += ((Healpot) p1.inventory.get(itemchoice)).healbonus;
+                            type("You are healed by "+ ((Healpot) p1.inventory.get(itemchoice)).healbonus);
+                        }
+                        p1.inventory.remove(p1.inventory.get(itemchoice));
+                        break;
+                    }
                 }
                 break;
             case "D":
@@ -386,8 +405,8 @@ public class TA {
                     }
                 }
                 type("You dropped the "+p1.inventory.get(dropchoice).name+".");
-                d.makeUp[col][row].loot.add(p1.inventory.get(dropchoice));
-                d.makeUp[col][row].desc.add(p1.inventory.get(dropchoice).iString);
+                cr.loot.add(p1.inventory.get(dropchoice));
+                cr.desc.add(p1.inventory.get(dropchoice).iString);
                 p1.inventory.remove(p1.inventory.get(dropchoice));
                 break;
         }
