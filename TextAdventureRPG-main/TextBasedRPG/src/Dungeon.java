@@ -5,7 +5,7 @@ public class Dungeon {
     public int y;
     Room[][] makeUp;
     String entryDirection;
-    Random rnd = new Random(System.currentTimeMillis());
+    Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
     String[] directions = {"S", "W"};
 
     public void reset()

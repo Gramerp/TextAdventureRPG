@@ -5,7 +5,7 @@ public class Armor extends Item {
     public int defbonus;
 
     public static String[] nameList = {"Leather Armor", "Plate Mail", "Chain Mail"};
-    Random rnd = new Random(System.currentTimeMillis());
+    Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
     public Armor()
     {
         this.defbonus = rnd.nextInt(3)+1;

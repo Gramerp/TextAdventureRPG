@@ -6,7 +6,7 @@ public class Item {
     public String iString;
     public boolean equipped = false;
 
-    Random rnd = new Random(System.currentTimeMillis());
+    Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
     public Item()
     {
 

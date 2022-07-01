@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class TA {
     public static Creature p1 = new Creature(1);
-    static Random rnd = new Random(System.currentTimeMillis());
+    static Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
     static int row;
     static int col;
     static int zLevel = 0;

@@ -13,7 +13,6 @@ public class Creature {
     boolean requipped = false;
     String cstring;
     ArrayList<Item> inventory = new ArrayList();
-    Random rnd = new Random(System.currentTimeMillis());
     public String name;
 
     public int damaged(int damage)
@@ -55,7 +54,9 @@ public class Creature {
 
     public Creature(int level)
     {
+
         this();
+        Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
         this.name = nameList[rnd.nextInt(nameList.length)];
         this.level = level;
         this.att = level*rnd.nextInt(3)+1;

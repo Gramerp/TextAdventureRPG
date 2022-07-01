@@ -3,7 +3,7 @@ import java.util.Random;
 public class Healpot extends Consumable {
     int healbonus;
     public static String[] nameList = {"Life Elixir", "Ointment", "Medicine"};
-    Random rnd = new Random(System.currentTimeMillis());
+    Random rnd = new Random(System.currentTimeMillis()+Room.clocker);
 
     public Healpot()
     {
