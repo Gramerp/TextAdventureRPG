@@ -70,17 +70,21 @@ public class Creature {
         this.inventory.add(sp);
         this.inventory.add(sw);
         this.inventory.add(sr);
+        sr.equipped = true; sw.equipped = true;
+        this.requipped = true; this.wequipped = true;
+        this.def += sr.defbonus;
+        this.att += sw.attbonus;
     }
 
     public int attack(Creature target) throws InterruptedException {
-        int damage = (int) (this.att * Math.random());
+        int damage = (int) (this.att * (Math.random()));
         target.damaged(damage);
         int damageDealt = target.damaged(damage);
         TA.type(this.name+" attacks "+target.name+" for "+damage+" damage.");
         return damageDealt;
     }
     public int weaken(Creature target) throws InterruptedException {
-        int weakness = (int) (this.magic * Math.random() * this.level);
+        int weakness = (int) (this.magic * (Math.random()+1) * this.level);
         this.att -= weakness;
         this.def -= weakness;
         this.magic -= weakness;

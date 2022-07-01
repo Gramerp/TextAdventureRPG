@@ -272,6 +272,7 @@ public class TA {
                     p1.levelup();
                     for (int i = 0; i < cr.enemies.get(fight).inventory.size(); i++)
                     {
+                        cr.enemies.get(fight).inventory.get(i).equipped = false;
                         p1.inventory.add(cr.enemies.get(fight).inventory.get(i));
                         type("You got a "+cr.enemies.get(fight).inventory.get(i).name+".");
                         cr.enemies.get(fight).inventory.remove(cr.enemies.get(fight).inventory.get(i));
