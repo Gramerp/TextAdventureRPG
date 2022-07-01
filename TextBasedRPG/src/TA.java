@@ -301,7 +301,7 @@ public class TA {
                 for (int i = 0; i < p1.inventory.size(); i++)
                 {
                     System.out.print(i+": "+p1.inventory.get(i).name);
-                    if (p1.inventory.get(i).equipped)
+                    if (p1.inventory.get(i).equipped == true)
                     {
                         System.out.print(" (Equipped)");
                     }
@@ -337,6 +337,7 @@ public class TA {
                         {
                             type("You equipped the "+p1.inventory.get(itemchoice).name);
                             p1.att += (((Weapon) p1.inventory.get(itemchoice)).attbonus);
+                            p1.inventory.get(itemchoice).equipped = true;
                             p1.wequipped = true;
                         }
                     }
@@ -351,6 +352,7 @@ public class TA {
                         {
                             type("You equipped the "+p1.inventory.get(itemchoice).name);
                             p1.def += ((Armor) p1.inventory.get(itemchoice)).defbonus;
+                            p1.inventory.get(itemchoice).equipped = true;
                             p1.requipped = true;
                         }
                     }
